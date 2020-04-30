@@ -34,6 +34,7 @@ public class AuditeurCNAMTest extends junit.framework.TestCase {
      * Constructeur de la classe-test AuditeurCNAMTest.
      */
     public AuditeurCNAMTest() {
+      
     }
 
     /**
@@ -43,7 +44,7 @@ public class AuditeurCNAMTest extends junit.framework.TestCase {
      */
     protected void setUp() // throws java.lang.Exception
     {
-        // Initialisez ici vos engagements
+         
     }
 
     /**
@@ -115,11 +116,20 @@ public class AuditeurCNAMTest extends junit.framework.TestCase {
     }
 
     public void test_nom_avec_accent() {
-        question3.AuditeurCNAM auditeur1 = new question3.AuditeurCNAM("Chloé",
+      
+         question3.AuditeurCNAM auditeur1 = new question3.AuditeurCNAM("Chloé",
                 "chloé", "12345");
         assertEquals("Mme Chloé chloé ", "Chloé", auditeur1.nom());
         assertEquals("Mme Chloé chloé ", "chloé", auditeur1.prenom());
         assertEquals(" nom avec accent (é devient e) ? ", "chloe_c",
             auditeur1.login());
+    }
+
+    public void testMonPropreLoginTest()
+    {
+        question3.AuditeurCNAM auditeur1 = new question3.AuditeurCNAM("A%ét$HONY-Junior", "$%%Trad1$", "10381f");
+        assertEquals("a_et_h_t", auditeur1.login());
+        java.lang.String string1 = auditeur1.login();
+        assertEquals("a_et_h_t", string1);
     }
 }

@@ -1,5 +1,6 @@
 package question3;
-
+import java.text.Normalizer;
+import java.util.regex.*;
 /**
  * NFP121 TpIntroduction, usage de BlueJ et du "Submitter".
  * 
@@ -44,8 +45,39 @@ public class AuditeurCNAM {
      * @return le login du Cnam simplifié, sans les adaptations dues aux
      *         homonymes...
      */
-    public String login() {
-        return "";// à compléter
+    public String login() 
+    {
+        if(nom==null||prenom==null||nom.isEmpty()||prenom.isEmpty())
+            return null;
+        
+        //initialisation pour eviter dexception
+        String subnom="",prenomChar="";
+        char symbole='_';
+        
+        //prendre le string de 0 a 5 (6 lettres)
+        //on a pris les 6 premier charactere (avec ou sans symbole)
+        subnom=nom.substring(0,6);
+            
+        //elever tout accent (é => e etc..) 
+        subnom= Normalizer.normalize(subnom, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        
+        //remplacer tout symbole special (non alphanumerqiue) par un "_"
+        subnom=subnom.replaceAll("[^A-Za-z0-9]","_");        
+
+        //elever tout accent (é => e etc..) puis
+        //prendre le premier charactere du prenom 
+        //PS : on prend le cas qun prenom peu etre : __fontaine
+        //dans ce cas charAt(0) ne fonctionne pas
+        prenomChar= Normalizer.normalize(prenom, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        Pattern firstLetterPattern = Pattern.compile("\\b[a-zA-Z]"); 
+        Matcher firstLetterMatcher = firstLetterPattern.matcher(prenomChar); 
+        
+        if (firstLetterMatcher.find())
+            prenomChar=firstLetterMatcher.group();
+        
+        return subnom.toLowerCase()
+        +symbole
+        +prenomChar.toLowerCase();
     }
 
     /**
@@ -54,7 +86,7 @@ public class AuditeurCNAM {
      * @return son nom
      */
     public String nom() {
-        return null;// à compléter
+        return nom;
     }
 
     /**
@@ -63,7 +95,7 @@ public class AuditeurCNAM {
      * @return son prénom
      */
     public String prenom() {
-        return null;// à compléter
+        return prenom;
     }
 
     /**
@@ -72,7 +104,7 @@ public class AuditeurCNAM {
      * @return son matricule
      */
     public String matricule() {
-        return null;// à compléter
+        return matricule;
     }
 
     /**
